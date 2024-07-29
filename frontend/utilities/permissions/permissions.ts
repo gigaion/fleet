@@ -6,11 +6,11 @@ export const isSandboxMode = (config: IConfig): boolean => {
 };
 
 export const isFreeTier = (config: IConfig): boolean => {
-  return config.license.tier === "free";
+  return false; // return config.license.tier === "free";
 };
 
 export const isPremiumTier = (config: IConfig): boolean => {
-  return config.license.tier === "premium";
+  return true; // return config.license.tier === "premium";
 };
 
 export const isMacMdmEnabledAndConfigured = (config: IConfig): boolean => {

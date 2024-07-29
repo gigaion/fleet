@@ -183,7 +183,7 @@ const DeviceUserPage = ({
         self_service,
       }) => {
         setShowRefetchSpinner(isRefetching(responseHost));
-        setIsPremiumTier(license.tier === "premium");
+        setIsPremiumTier(true); // setIsPremiumTier(license.tier === "premium");
         setOrgLogoURL(org_logo_url);
         setOrgContactURL(org_contact_url);
         setGlobalConfig(global_config);
