@@ -288,6 +288,13 @@ VALUES
 	}
 
 	_, err := tx.ExecContext(ctx, stmt, adamID, globalOrTmID, teamID)
+	if IsDuplicate(err) {
+		err = &existsError{
+			Identifier:   adamID,
+			TeamID:       teamID,
+			ResourceType: "VPPAppAdamID",
+		}
+	}
 
 	return ctxerr.Wrap(ctx, err, "writing vpp app team mapping to db")
 }
@@ -331,7 +338,8 @@ func (ds *Datastore) getOrInsertSoftwareTitleForVPPApp(ctx context.Context, tx s
 		insertArgs = append(insertArgs, app.BundleIdentifier)
 	}
 
-	titleID, err := ds.optimisticGetOrInsert(ctx,
+	titleID, err := ds.optimisticGetOrInsertWithWriter(ctx,
+		tx,
 		&parameterizedStmt{
 			Statement: selectStmt,
 			Args:      selectArgs,
